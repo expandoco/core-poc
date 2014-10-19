@@ -1,0 +1,26 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Scissr POC</title>
+	<link rel="stylesheet" type="text/css" href="http://codemirror.net/lib/codemirror.css">
+    
+	<style>
+		#contentbox {
+		    width:100%;
+		    
+		}
+	</style>
+</head>
+<body>
+	<textarea name="contentbox" id="contentbox" cols="30" rows="10">A,B(C,D)
+	</textarea>
+	<button id="go">Go</button>
+	<div id="jsontree" class="code"></div>
+
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type='text/javascript' src="http://codemirror.net/lib/codemirror.js"></script>
+    <script type='text/javascript' src="http://codemirror.net/mode/javascript/javascript.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
- "use strict";  
+ "use strict";
 
 /** Regex pattern to identify tokens. */
 var tokenPattern = new RegExp("[\\w]+|[\\)]|[\\(]|[,]");
@@ -34,7 +34,6 @@ function processInput(input){
             tokenValue: tokenValue
         };
     }
-    
     return output;
 }
 
@@ -48,9 +47,7 @@ function parseTree(input) {
     var root = {
         nodes: []
     }
-   
     stack.push(root);
-
     var tokenInfo = processInput(input);
         
     while(tokenInfo !== null && counter < MAX_NUMBER_OF_ITTERATIONS) {
@@ -88,7 +85,6 @@ function createNodeAndPushToStack(name){
     var node = createNode(name);
     // Get the node at the top of the stack.
     var currentNode = stack[stack.length-1];
-    
     // If the node is currently a leave node
     // add nodes array to store children.
     if (!currentNode.nodes){

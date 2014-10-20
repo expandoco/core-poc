@@ -1,28 +1,50 @@
-var patt = new RegExp("[\\w]+|[\\)]|[\\(]|[,]");
+ "use strict";  
+
+/** Regex pattern to identify tokens. */
+var tokenPattern = new RegExp("[\\w]+|[\\)]|[\\(]|[,]");
+
+/*
+ * Stack is used in creatation of the syntax tree. 
+ * Stack always contains the reference from the current node
+ * to the root.
+ */
 var stack = [];
 
+/** Max number of iteration allowed in the parse tree. */
+var MAX_NUMBER_OF_ITTERATIONS = 1000;
+
+
+/**
+ * Removes next token from input strings,
+ * and packs into a tokeninfo object.
+ *
+ * return null if no tokens are left in input 
+ *             to process.
+ */
 function processInput(input){
-    var token = patt.exec(input);
-    var tokenValue;
-    
+    var token = tokenPattern.exec(input);
+    var output = null;
+
     if (token !== null) {
-        tokenValue = token[0];
+        var tokenValue = token[0];
         input = removeToken(input, tokenValue);
         
-        return {
+        output = {
             input: input,
             tokenValue: tokenValue
         };
     }
     
-    return null;
+    return output;
 }
 
+/**
+ * Parse the input to create a syntax tree.
+ */
 function parseTree(input) {    
-    // TODO remove invalid characters.
     input = sanitizeInput(input);
     
-    var endlessLoopCounter = 0;
+    var counter = 0;
     var root = {
         nodes: []
     }
@@ -31,7 +53,7 @@ function parseTree(input) {
 
     var tokenInfo = processInput(input);
         
-    while(tokenInfo !== null && endlessLoopCounter < 1000) {
+    while(tokenInfo !== null && counter < MAX_NUMBER_OF_ITTERATIONS) {
 
         switch (tokenInfo.tokenValue) {
             case ",": 
@@ -43,75 +65,59 @@ function parseTree(input) {
             case "(": 
                 break;    
             default:
-                addNode(tokenInfo.tokenValue);
+                createNodeAndPushToStack(tokenInfo.tokenValue);
                 break;
         }        
         
         tokenInfo = processInput(tokenInfo.input);
-        
-        endlessLoopCounter++;
+        counter++;
     }
-    if (endlessLoopCounter == 1000) {
-        alert("Endless Loop detected");
+
+    if (counter == MAX_NUMBER_OF_ITTERATIONS) {
+        console.error("ERROR:Max number of iterations reached. Stopping execution.");
     }
+
     return root;
 }
 
-function addNode(name){    
+/**
+ * Creates a new node with parameter name and adds it to the current node
+ * as a child node.
+ */
+function createNodeAndPushToStack(name){ 
     var node = createNode(name);
+    // Get the node at the top of the stack.
     var currentNode = stack[stack.length-1];
     
+    // If the node is currently a leave node
+    // add nodes array to store children.
     if (!currentNode.nodes){
         currentNode.nodes = [];
     }
+
     currentNode.nodes.push(node);
     stack.push(node);
 }
 
+/**
+ * Creates a node with requiered data fields.
+ */
 function createNode(nodeName){
     return {
         name: nodeName
     };
 }
 
+/**
+ * Function removes the string 'token' from the input and returns the result.
+ */
 function removeToken(input, token){
     return input.substring(token.length, input.length);
 }
 
+/**
+ * Remove invalid characters from input string.
+ */
 function sanitizeInput(input){
     return input.trim();
-}
-
-///////
-   
-function showTree(tree){
-    var value = JSON.stringify(tree, null, "\t");
-    var $jsontree = $("#jsontree");
-    
-    $jsontree.html(value);
-    format($jsontree[0]);
-}
-
-function go(){
-    var input = $("#contentbox").val();    
-    var tree = parseTree(input);
-    showTree(tree);
-}
-
-$("#go").on("click",go);
-
-function format(obj) {
-    
-    var $this = $(obj),
-        $code = $this.html(),
-        $unescaped = $('<div/>').html($code).text();
-   
-    $this.empty();
-
-    CodeMirror(obj, {
-        value: $unescaped,
-        mode: 'javascript',
-        lineNumbers: !$this.is('.inline'),
-        readOnly: true
-    });    
 }

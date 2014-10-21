@@ -46,7 +46,8 @@ function parseTree(input) {
     var counter = 0;
     var root = {
         nodes: []
-    }
+    };
+    
     stack.push(root);
     var tokenInfo = processInput(input);
         
@@ -70,7 +71,7 @@ function parseTree(input) {
         counter++;
     }
 
-    if (counter == MAX_NUMBER_OF_ITTERATIONS) {
+    if (counter === MAX_NUMBER_OF_ITTERATIONS) {
         console.error("ERROR:Max number of iterations reached. Stopping execution.");
     }
 

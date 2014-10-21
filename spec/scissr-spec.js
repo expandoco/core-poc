@@ -6,7 +6,7 @@ describe("Scissr.js Testing", function() {
     // Remove if not in use.
   });
 
-  it("Alway pass test", function() {
+  it("Always pass test", function() {
     expect("1").toEqual("1");
   });
 

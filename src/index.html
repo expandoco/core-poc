@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scissr POC</title>
+    <link rel="stylesheet" type="text/css" href="http://codemirror.net/lib/codemirror.css">
+
+    <style>
+    #contentbox {
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <textarea name="contentbox" id="contentbox" cols="30" rows="10">A,B(C,D)
+    </textarea>
+    <button id="go">Go</button>
+    <div id="jsontree" class="code"></div>
+
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type='text/javascript' src="http://codemirror.net/lib/codemirror.js"></script>
+    <script type='text/javascript' src="http://codemirror.net/mode/javascript/javascript.js"></script>
+    <script src="scissr.js"></script>
+    
+    <script>
+	    function showTree(tree) {
+	        var value = JSON.stringify(tree, null, "\t");
+	        var $jsontree = $("#jsontree");
+
+	        $jsontree.html(value);
+	        format($jsontree[0]);
+	    }
+
+	    function go() {
+	        var input = $("#contentbox").val();
+	        var tree = parseTree(input);
+	        showTree(tree);
+	    }
+
+	    $("#go").on("click", go);
+
+	    function format(obj) {
+	            var $this = $(obj),
+	                $code = $this.html(),
+	                $unescaped = $('<div/>').html($code).text();
+
+	            $this.empty();
+
+	            CodeMirror(obj, {
+	                value: $unescaped,
+	                mode: 'javascript',
+	                lineNumbers: !$this.is('.inline'),
+	                readOnly: true
+	            });
+	        }
+    </script>
+</body>
+
+</html>

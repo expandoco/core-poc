@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "karma": ">=0.11.14",
+    "karma-jasmine": "~0.2.0"
+  },
+  "keywords": [
+    "karma"   
+  ]
+}

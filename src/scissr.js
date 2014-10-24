@@ -34,7 +34,7 @@ define(function (){
 
         if (token !== null) {
             var tokenValue = token[0];
-            input = this.removeToken(input, tokenValue);
+            input = removeToken(input, tokenValue);
             
             output = {
                 input: input,
@@ -48,7 +48,7 @@ define(function (){
      * Parse the input to create a syntax tree.
      */
     function parseTree(input) {    
-        input = this.sanitizeInput(input);
+        input = sanitizeInput(input);
         
         var counter = 0;
         var root = {
@@ -56,7 +56,7 @@ define(function (){
         };
         
         stack.push(root);
-        var tokenInfo = this.processInput(input);
+        var tokenInfo = processInput(input);
             
         while(tokenInfo !== null && counter < MAX_NUMBER_OF_ITTERATIONS) {
 
@@ -70,11 +70,11 @@ define(function (){
                 case "(": 
                     break;    
                 default:
-                    this.createNodeAndPushToStack(tokenInfo.tokenValue);
+                    createNodeAndPushToStack(tokenInfo.tokenValue);
                     break;
             }        
             
-            tokenInfo = this.processInput(tokenInfo.input);
+            tokenInfo = processInput(tokenInfo.input);
             counter++;
         }
 
@@ -90,7 +90,7 @@ define(function (){
      * as a child node.
      */
     function createNodeAndPushToStack(name){ 
-        var node = this.createNode(name);
+        var node = createNode(name);
         // Get the node at the top of the stack.
         var currentNode = stack[stack.length-1];
         // If the node is currently a leave node
@@ -134,6 +134,7 @@ define(function (){
         createNodeAndPushToStack: createNodeAndPushToStack,
         processInput: processInput,
         parseTree: parseTree
-    }
+    };
 
 });
+

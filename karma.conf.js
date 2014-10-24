@@ -3,7 +3,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     files: [
       'src/*.js',
-      'spec/*.js'
+      'spec/*.spec.js'
     ]
   });
 };

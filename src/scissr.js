@@ -1,5 +1,5 @@
 if (typeof module === 'object' && typeof define !== 'function') {
-    define = function (factory) {
+    var define = function (factory) {
         module.exports = factory(require, exports, module);
     };
 }

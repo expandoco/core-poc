@@ -22,39 +22,44 @@
     <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type='text/javascript' src="http://codemirror.net/lib/codemirror.js"></script>
     <script type='text/javascript' src="http://codemirror.net/mode/javascript/javascript.js"></script>
-    <script src="scissr.js"></script>
+    <script data-main="scissr" src="../node_modules/requirejs/require.js"></script>
+  
     
     <script>
-	    function showTree(tree) {
-	        var value = JSON.stringify(tree, null, "\t");
-	        var $jsontree = $("#jsontree");
 
-	        $jsontree.html(value);
-	        format($jsontree[0]);
-	    }
+    	require(["scissr"], function(scissr) {
+	    	function showTree(tree) {
+		        var value = JSON.stringify(tree, null, "\t");
+		        var $jsontree = $("#jsontree");
 
-	    function go() {
-	        var input = $("#contentbox").val();
-	        var tree = parseTree(input);
-	        showTree(tree);
-	    }
+		        $jsontree.html(value);
+		        format($jsontree[0]);
+		    }
 
-	    $("#go").on("click", go);
+		    function go() {
+		        var input = $("#contentbox").val();
+		        var tree = scissr.parseTree(input);
+		        showTree(tree);
+		    }
 
-	    function format(obj) {
-	            var $this = $(obj),
-	                $code = $this.html(),
-	                $unescaped = $('<div/>').html($code).text();
+		    $("#go").on("click", go);
 
-	            $this.empty();
+		    function format(obj) {
+		            var $this = $(obj),
+		                $code = $this.html(),
+		                $unescaped = $('<div/>').html($code).text();
 
-	            CodeMirror(obj, {
-	                value: $unescaped,
-	                mode: 'javascript',
-	                lineNumbers: !$this.is('.inline'),
-	                readOnly: true
-	            });
-	        }
+		            $this.empty();
+
+		            CodeMirror(obj, {
+		                value: $unescaped,
+		                mode: 'javascript',
+		                lineNumbers: !$this.is('.inline'),
+		                readOnly: true
+		            });
+		        }
+	    });
+
     </script>
 </body>
 

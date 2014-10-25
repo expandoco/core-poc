@@ -81,7 +81,7 @@ define(function (){
 		}
 
 		if (counter === MAX_NUMBER_OF_ITTERATIONS) {
-			console.error("ERROR:Max number of iterations reached. Stopping execution.");
+			console.error("Max number of iterations reached. Stopping execution.");
 		}
 
 		return root;
